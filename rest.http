@@ -1,0 +1,9 @@
+### Criar uma conta
+POST http://localhost:3333/api/create-account
+Content-Type: application/json
+
+{
+  "name": "Igor Teste",
+  "email": "test@gmail.com",
+  "password": "senha123"
+}
