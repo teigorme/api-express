@@ -12,7 +12,7 @@ export const authenticate = async (
         try {
                 const token = req.headers.authorization?.split(" ")[1];
                 if (!token) {
-                        return res.status(401);
+                        return res.status(401).send();
                 }
 
                 const decoded = jwt.verify(token, env.JWT_SECRET) as Payload;
@@ -33,6 +33,6 @@ export const authenticate = async (
                 };
                 return next();
         } catch (_error) {
-                return res.status(401);
+                return res.status(401).send();
         }
 };

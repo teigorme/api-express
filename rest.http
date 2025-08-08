@@ -1,0 +1,20 @@
+POST http://localhost:3333/api/email-and-password
+Content-Type: application/json
+
+{
+  "email":"ig354@gmail.com",
+  "password":"senha321"
+}
+
+###
+
+POST http://localhost:3333/api/create-account
+Content-Type: application/json
+
+{
+  "email":"ig354@gmail.com",
+  "password":"senha321",
+  "name":"Igor Teixeira"
+}
+
+

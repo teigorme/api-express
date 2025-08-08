@@ -3,28 +3,28 @@ import { describe, it, expect, afterAll } from "vitest";
 import app from "../src/main";
 import { prisma } from "../src/shared/prisma";
 
-describe("Auth Routes", () => {
+describe("Auth routes", () => {
         const data = {
                 name: "Test",
                 email: `test+${Date.now()}@gmail.com`,
-                password: "senha321",
+                password: "password321",
         };
 
-        it("POST /create-account criar novo usuário", async () => {
+        it("POST /create-account creates a new user", async () => {
                 const response = await request(app)
                         .post("/api/create-account")
                         .send(data);
                 expect(response.status).toBe(201);
         });
 
-        it("POST /create-account criar usuário com email existente", async () => {
+        it("POST /create-account fails when email already exists", async () => {
                 const response = await request(app)
                         .post("/api/create-account")
                         .send(data);
                 expect(response.status).toBe(400);
         });
 
-        it("POST /email-and-password fazer autenticação de usuário e obter novo JWT", async () => {
+        it("POST /email-and-password authenticates user and returns JWT", async () => {
                 const response = await request(app)
                         .post("/api/email-and-password")
                         .send(data);
