@@ -5,6 +5,29 @@ import { StatusCodes } from 'http-status-codes'
 import validate from 'express-zod-safe'
 import { createAccountDto } from '@/src/routes/auth/dto/create-account.dto'
 import type { Empty } from '@/src/@types/empty'
+import { registry } from '@/src/docs/registry'
+
+registry.registerPath({
+  method: 'post',
+  path: '/api/create-account',
+  tags: ['auth'],
+  description: 'Create a new user',
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: createAccountDto,
+        },
+      },
+    },
+  },
+  responses: {
+    201: { description: 'Account successfully created' },
+    400: { description: 'Email already exists' },
+  },
+})
+
+
 const router = Router()
 
 router.post(

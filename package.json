@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/teigorme/api-express#readme",
   "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^8.1.0",
     "@casl/ability": "^6.7.3",
     "@casl/prisma": "^1.5.2",
     "@prisma/client": "6.13.0",
@@ -37,6 +38,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.1",
     "supertest": "^7.1.4",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^4.0.15"
   },
   "devDependencies": {
@@ -47,6 +49,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
     "@types/supertest": "^6.0.3",
+    "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^6.13.0",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2",
