@@ -30,7 +30,7 @@ The app will be available at: [http://localhost:{{PORT}}](http://localhost:{{POR
 ## 🧪 Run tests
 
 ```bash
-npm test  # ou yarn test
+pnpm test  # ou yarn test
 ```
 
 ## ✅ Features

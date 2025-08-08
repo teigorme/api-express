@@ -1,5 +1,4 @@
-import { Router } from "express";
-import { StatusCodes } from "http-status-codes";
-const router = Router();
+import { Router } from 'express'
+const router = Router()
 
-router.post("email-and-password", async () => {});
+router.post('email-and-password', async () => {})
