@@ -20,6 +20,9 @@ app.use(logger)
 
 app.use('/api', routes)
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiSpec))
+app.get('/api/docs.json', (_, res) => {
+  res.json(openApiSpec)
+})
 app.get('/', (_, response) => {
   response.json({ message: 'Good Luck' })
 })
