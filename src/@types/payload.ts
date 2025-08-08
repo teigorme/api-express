@@ -1,6 +1,7 @@
 import type { Roles } from '@/generated/prisma'
 
-export type Payload = {
-  sub: string
-  role: Roles
-}
+export type Payload =
+	{
+		sub: string
+		role: Roles
+	}
