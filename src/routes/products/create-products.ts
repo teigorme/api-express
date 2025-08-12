@@ -5,22 +5,49 @@ import type { Empty } from "@/src/@types/empty";
 import { registry } from "@/src/docs/registry";
 import validate from "express-zod-safe";
 import { createProductsDto } from "@/src/routes/products/dto/create-products.dto";
+
+registry.registerPath({
+    method: "post",
+    path: "/api/products",
+    tags: ["products"],
+    security: [
+        {
+            bearerAuth: [],
+        },
+    ],
+    request: {
+        body: {
+            content: {
+                "application/json": {
+                    schema: createProductsDto,
+                },
+            },
+        },
+    },
+    responses: {
+        201: {
+            description: "",
+        },
+        400: { description: "" },
+    },
+});
+
 const router = Router();
 
 router.post(
-        "/products",
-        validate({ body: createProductsDto }),
-        async (
-                request: Request<Empty, Empty, createProductsDto>,
-                response: Response
-        ) => {
-                const { name, price, description, stock } = request.body;
-                const { sub } = request.user;
-                await prisma.product.create({
-                        data: { name, price, description, stock, userId: sub },
-                });
+    "/products",
+    validate({ body: createProductsDto }),
+    async (
+        request: Request<Empty, Empty, createProductsDto>,
+        response: Response
+    ) => {
+        const { name, price, description, stock } = request.body;
+        const { sub } = request.user;
+        await prisma.product.create({
+            data: { name, price, description, stock, userId: sub },
+        });
 
-                return response.status(StatusCodes.CREATED).send();
-        }
+        return response.status(StatusCodes.CREATED).send();
+    }
 );
 export { router as createProductsRouter };

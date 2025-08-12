@@ -31,7 +31,6 @@ describe("Products routes", () => {
 
         it("GET /products get all products", async () => {
                 const response = await request(app).get("/api/products");
-
                 expect(response.status).toBe(200);
                 expect(response.body).toHaveProperty("items");
                 expect(Array.isArray(response.body.items)).toBe(true);

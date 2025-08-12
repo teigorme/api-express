@@ -19,22 +19,20 @@ app.use(cors());
 app.use(logger);
 
 app.use("/api", routes);
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(openApiSpec));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiSpec));
 app.get("/api/docs.json", (_, res) => {
-        res.json(openApiSpec);
+    res.json(openApiSpec);
 });
 app.get("/", (_, response) => {
-        response.json({
-                message: "Good Luck",
-        });
+    response.json({
+        message: "Good Luck",
+    });
 });
 app.use(errorHandler);
 app.use(notFoundHandler);
 
 app.listen(PORT, () => {
-        logger.logger.info(
-                `🚀 Server running on http://localhost:${PORT}/api/docs`
-        );
+    logger.logger.info(`🚀 Server running on http://localhost:${PORT}/docs`);
 });
 
 export default app;
