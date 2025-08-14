@@ -1,13 +1,14 @@
 import request from "supertest";
 import { describe, it, expect, afterAll } from "vitest";
 import app from "../src/main";
-import { prisma } from "../src/shared/prisma";
+//import { prisma } from "../src/shared/prisma";
+import { faker } from "@faker-js/faker";
 
 describe("Auth routes", () => {
   const data = {
-    name: "Test",
-    email: `test+${Date.now()}@gmail.com`,
-    password: "password321",
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    password: "senha321",
   };
 
   it("POST /create-account creates a new user", async () => {
@@ -28,10 +29,12 @@ describe("Auth routes", () => {
     expect(response.body).toHaveProperty("access_token");
   });
 
+  /*
   afterAll(async () => {
     await prisma.user.deleteMany({
       where: { email: data.email },
     });
     await prisma.$disconnect();
   });
+ */
 });

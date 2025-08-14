@@ -1,16 +1,13 @@
 import { type Request, type Response, Router } from "express";
-import jwt from "jsonwebtoken";
 import validate from "express-zod-safe";
-import {
-  token,
-  emailAndPasswordDto,
-} from "@/src/routes/auth/dto/email-and-password.dto";
+import { emailAndPasswordDto } from "@/src/routes/auth/dto/email-and-password.dto";
 import type { Empty } from "@/src/@types/empty";
 import { prisma } from "@/src/shared/prisma";
 import { compare } from "bcrypt";
 import { StatusCodes } from "http-status-codes";
-import { env } from "@/src/shared/env";
+import { generateToken } from "@/src/utils/generate-token";
 import { registry } from "@/src/docs/registry";
+import z from "zod";
 
 registry.registerPath({
   method: "post",
@@ -28,15 +25,17 @@ registry.registerPath({
   },
   responses: {
     201: {
-      description: "JWT successfully created",
+      description: "jwt successfully created",
       content: {
         "application/json": {
-          schema: token,
+          schema: z.object({
+            access_token: z.string(),
+          }),
         },
       },
     },
     400: {
-      description: "Bad credentials",
+      description: "bad credential",
     },
   },
 });
@@ -61,15 +60,14 @@ router.post(
 
     if (!user || !(await compare(password, user.password)))
       return response.status(StatusCodes.BAD_REQUEST).send();
+
     const payload = {
       sub: user.id,
       role: user.role,
     };
 
     return response.status(StatusCodes.CREATED).send({
-      access_token: jwt.sign(payload, env.JWT_SECRET, {
-        expiresIn: "30min",
-      }),
+      access_token: await generateToken(payload),
     });
   }
 );

@@ -6,6 +6,8 @@ import { updateProductsDto } from "@/src/routes/products/dto/update-products.dto
 import { paramsProducts } from "@/src/routes/products/dto/params-products.dto";
 import { Empty } from "@/src/@types/empty";
 import { registry } from "@/src/docs/registry";
+import { defineAbilityFor } from "@/src/shared/abilities";
+import { ForbiddenError, subject } from "@casl/ability";
 
 registry.registerPath({
   method: "patch",
@@ -27,9 +29,8 @@ registry.registerPath({
     params: paramsProducts,
   },
   responses: {
-    200: {
-      description: "",
-    },
+    200: { description: "" },
+    403: { description: "" },
     404: { description: "" },
   },
 });
@@ -44,6 +45,9 @@ router.patch(
     response: Response
   ) => {
     const { id } = request.params;
+    const { sub, role } = request.user;
+
+    const ability = defineAbilityFor({ id: sub, role });
 
     const { name, price, description, stock } = request.body;
 
@@ -52,6 +56,11 @@ router.patch(
     if (!product) {
       return response.status(StatusCodes.NOT_FOUND).send();
     }
+
+    ForbiddenError.from(ability).throwUnlessCan(
+      "update",
+      subject("Product", product)
+    );
 
     await prisma.product.update({
       where: { id },

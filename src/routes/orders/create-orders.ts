@@ -26,9 +26,9 @@ registry.registerPath({
   },
   responses: {
     201: {
-      description: "",
+      description: "order successfully created",
     },
-    400: { description: "" },
+    400: { description: "invalid body" },
   },
 });
 

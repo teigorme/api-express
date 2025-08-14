@@ -23,10 +23,10 @@ registry.registerPath({
   },
   responses: {
     201: {
-      description: "Account successfully created",
+      description: "account successfully created",
     },
     400: {
-      description: "Email already exists",
+      description: "email already exists",
     },
   },
 });

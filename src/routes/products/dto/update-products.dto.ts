@@ -6,7 +6,7 @@ extendZodWithOpenApi(z);
 export const updateProductsDto = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
-  price: z.number().optional(),
+  price: z.coerce.number().optional(),
   stock: z.number().positive().optional(),
 });
 

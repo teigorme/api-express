@@ -28,9 +28,13 @@ registry.registerPath({
             name: z.string(),
             price: z.int(),
             description: z.string(),
+            createdAt: z.date(),
+            updatedAt: z.date(),
             user: z.object({
               id: z.uuid(),
               name: z.string(),
+              createdAt: z.date(),
+              updatedAt: z.date(),
             }),
           }),
         },
@@ -42,7 +46,7 @@ registry.registerPath({
 
 const router = Router();
 
-router.post(
+router.get(
   "/products/:id",
   validate({ params: paramsProducts }),
   async (request: Request<paramsProducts>, response: Response) => {
@@ -54,10 +58,15 @@ router.post(
         id: true,
         name: true,
         price: true,
+        description: true,
+        createdAt: true,
+        updatedAt: true,
         user: {
           select: {
             id: true,
             name: true,
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },

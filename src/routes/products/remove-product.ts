@@ -4,23 +4,18 @@ import { StatusCodes } from "http-status-codes";
 import validate from "express-zod-safe";
 import { paramsProducts } from "@/src/routes/products/dto/params-products.dto";
 import { registry } from "@/src/docs/registry";
+import { defineAbilityFor } from "@/src/shared/abilities";
+import { ForbiddenError, subject } from "@casl/ability";
 
 registry.registerPath({
   method: "delete",
   path: "/api/products/{id}",
   tags: ["products"],
-  security: [
-    {
-      bearerAuth: [],
-    },
-  ],
-  request: {
-    params: paramsProducts,
-  },
+  security: [{ bearerAuth: [] }],
+  request: { params: paramsProducts },
   responses: {
-    204: {
-      description: "",
-    },
+    204: { description: "" },
+    403: { description: "" },
     404: { description: "" },
   },
 });
@@ -32,6 +27,9 @@ router.delete(
   validate({ params: paramsProducts }),
   async (request: Request<paramsProducts>, response: Response) => {
     const { id } = request.params;
+    const { sub, role } = request.user;
+
+    const ability = defineAbilityFor({ id: sub, role });
 
     const product = await prisma.product.findUnique({ where: { id } });
 
@@ -39,8 +37,12 @@ router.delete(
       return response.status(StatusCodes.NOT_FOUND).send();
     }
 
-    await prisma.product.delete({ where: { id } });
+    ForbiddenError.from(ability).throwUnlessCan(
+      "delete",
+      subject("Product", product)
+    );
 
+    await prisma.product.delete({ where: { id } });
     return response.status(StatusCodes.NO_CONTENT).send();
   }
 );

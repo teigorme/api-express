@@ -26,9 +26,13 @@ registry.registerPath({
                 id: z.uuid(),
                 name: z.string(),
                 price: z.number().int(),
+                createdAt: z.date(),
+                updatedAt: z.date(),
                 user: z.object({
                   id: z.uuid(),
                   name: z.string(),
+                  createdAt: z.date(),
+                  updatedAt: z.date(),
                 }),
               })
             ),
@@ -77,10 +81,14 @@ router.get(
           id: true,
           name: true,
           price: true,
+          createdAt: true,
+          updatedAt: true,
           user: {
             select: {
               id: true,
               name: true,
+              createdAt: true,
+              updatedAt: true,
             },
           },
         },

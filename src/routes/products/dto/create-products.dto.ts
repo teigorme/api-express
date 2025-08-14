@@ -6,7 +6,7 @@ extendZodWithOpenApi(z);
 export const createProductsDto = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
-  price: z.number().min(1),
+  price: z.coerce.number().min(1),
   stock: z.int().positive().min(1),
 });
 
