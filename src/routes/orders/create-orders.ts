@@ -4,12 +4,12 @@ import { StatusCodes } from "http-status-codes";
 import type { Empty } from "@/src/@types/empty";
 import { registry } from "@/src/docs/registry";
 import validate from "express-zod-safe";
-import { createProductsDto } from "@/src/routes/products/dto/create-products.dto";
+import { createOrdersDto } from "@/src/routes/orders/dto/create-orders.dto";
 
 registry.registerPath({
   method: "post",
-  path: "/api/products",
-  tags: ["products"],
+  path: "/api/orders",
+  tags: ["orders"],
   security: [
     {
       bearerAuth: [],
@@ -19,7 +19,7 @@ registry.registerPath({
     body: {
       content: {
         "application/json": {
-          schema: createProductsDto,
+          schema: createOrdersDto,
         },
       },
     },
@@ -35,19 +35,21 @@ registry.registerPath({
 const router = Router();
 
 router.post(
-  "/products",
-  validate({ body: createProductsDto }),
+  "/orders",
+  validate({ body: createOrdersDto }),
   async (
-    request: Request<Empty, Empty, createProductsDto>,
+    request: Request<Empty, Empty, createOrdersDto>,
     response: Response
   ) => {
-    const { name, price, description, stock } = request.body;
+    const { productId, quantity, totalPrice } = request.body;
     const { sub } = request.user;
-    await prisma.product.create({
-      data: { name, price, description, stock, userId: sub },
+
+    await prisma.order.create({
+      data: { totalPrice, productId, quantity, userId: sub },
     });
 
     return response.status(StatusCodes.CREATED).send();
   }
 );
-export { router as createProductsRouter };
+
+export { router as createOrdersRouter };

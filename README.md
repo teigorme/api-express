@@ -1,12 +1,11 @@
-
-# 🚀 API EXPRESS 
+# 🚀 API EXPRESS
 
 API RESTful desenvolvida com Express e Prisma . Permite operações CRUD completas em usuários ,produtos e pedidos, com autenticação JWT e autorização com CASL e Tests E2E.
 
 ## 📋 Requirements
 
 - Node.js v24.4.1
-- `pnpm` 
+- `pnpm`
 
 ## 📦 Installation
 
